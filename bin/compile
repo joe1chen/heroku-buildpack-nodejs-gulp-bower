@@ -75,6 +75,16 @@ elif test -d $cache_dir/node/node_modules; then
 
 fi
 
+# Check and install bower
+(
+  if [ -f $build_dir/bower.json ]; then
+    # Install bower locally
+    npm install bower
+  else
+    status "-----> No bower.json found"
+  fi
+)
+
 # Scope config var availability only to `npm install`
 (
   if [ -d "$env_dir" ]; then
@@ -90,8 +100,7 @@ fi
 # Check and run bower
 (
   if [ -f $build_dir/bower.json ]; then
-    # Install bower locally
-    npm install bower
+    # Run bower install
     status "-----> Found bower.json, running bower install"
     $build_dir/node_modules/.bin/bower install
   else
